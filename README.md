@@ -9,6 +9,10 @@
 
 </div>
 
+## Finding the Component
+
+This component can be found under the **CoreAcademy** account on Community Content.
+
 ## Overview
 
 NFT Searcher is a component that allows users to search for a specific NFT and display it on an image.
