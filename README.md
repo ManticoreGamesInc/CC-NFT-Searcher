@@ -17,7 +17,7 @@ This component can be found under the **CoreAcademy** account on Community Conte
 
 NFT Searcher is a component that allows users to search for a specific NFT and display it on an image.
                                                                    
-The user needs to provide a contract address and token id using the UI Text Entry Box component. Other users should see the most recent succesful NFT searched for.  
+The user needs to provide a contract address and token id using the UI Text Entry Box component. Other users should see the most recent successful NFT searched for.  
 
 ## Setup
 
