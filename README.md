@@ -2,8 +2,8 @@
 
 # NFT Searcher
 
-[![Build Status](https://github.com/Core-Team-META/CC-Template-Repository/workflows/CI/badge.svg)](https://github.com/Core-Team-META/CC-Template-Repository/actions/workflows/ci.yml?query=workflow%3ACI%29)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/Core-Team-META/CC-Template-Repository?style=plastic)
+[![Build Status](https://github.com/ManticoreGamesInc/CC-NFT-Searcher/workflows/CI/badge.svg)](https://github.com/ManticoreGamesInc/CC-NFT-Searcher/actions/workflows/ci.yml?query=workflow%3ACI%29)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/ManticoreGamesInc/CC-NFT-Searcher?style=plastic)
 
 ![Preview](/Screenshots/nftsearcher.png)
 
