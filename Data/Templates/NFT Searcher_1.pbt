@@ -1,12 +1,12 @@
 Assets {
-  Id: 15128894864013200850
+  Id: 15494412900607628133
   Name: "NFT Searcher"
   PlatformAssetType: 5
   TemplateAsset {
     ObjectBlock {
-      RootId: 5456623627402495640
+      RootId: 649135291997421261
       Objects {
-        Id: 5456623627402495640
+        Id: 649135291997421261
         Name: "TemplateBundleDummy"
         Transform {
           Location {
@@ -22,54 +22,15 @@ Assets {
         Folder {
           BundleDummy {
             ReferencedAssets {
-              Id: 736360303936294653
-            }
-            ReferencedAssets {
               Id: 6702266276352956128
-            }
-            ReferencedAssets {
-              Id: 6235135006761033528
-            }
-            ReferencedAssets {
-              Id: 3456202429475588989
             }
             ReferencedAssets {
               Id: 15669355375314984524
             }
             ReferencedAssets {
-              Id: 17739455570673247523
+              Id: 6235135006761033528
             }
           }
-        }
-      }
-    }
-    Assets {
-      Id: 17739455570673247523
-      Name: "NFTSearcher_Server"
-      PlatformAssetType: 3
-      TextAsset {
-        Text: "local COMPONENT_ROOT = script:GetCustomProperty(\"ComponentRoot\"):WaitForObject()\r\n\r\nEvents.Connect(COMPONENT_ROOT.id .. \".NewToken\", function(contractAddress, tokenId)\r\n\tscript:SetCustomProperty(\"CurrentNFT\", contractAddress .. \"/\" .. tokenId)\r\nend)\r\n\r\nEvents.ConnectForPlayer(COMPONENT_ROOT.id .. \".LockCrouch\", function(player)\r\n\tplayer.isCrouchEnabled = false\r\nend)\r\n\r\nEvents.ConnectForPlayer(COMPONENT_ROOT.id .. \".UnlockCrouch\", function(player)\r\n\tplayer.isCrouchEnabled = true\r\nend)"
-        CustomParameters {
-        }
-      }
-    }
-    Assets {
-      Id: 15669355375314984524
-      Name: "NFTSearcher_README"
-      PlatformAssetType: 3
-      TextAsset {
-        Text: "--[[\r\n\r\n  _   _ ______ _______    _____                     _               \r\n | \\ | |  ____|__   __|  / ____|                   | |              \r\n |  \\| | |__     | |    | (___   ___  __ _ _ __ ___| |__   ___ _ __ \r\n | . ` |  __|    | |     \\___ \\ / _ \\/ _` | \'__/ __| \'_ \\ / _ \\ \'__|\r\n | |\\  | |       | |     ____) |  __/ (_| | | | (__| | | |  __/ |   \r\n |_| \\_|_|       |_|    |_____/ \\___|\\__,_|_|  \\___|_| |_|\\___|_|   \r\n                                                                    \r\nNFT Searcher is a component that allows users to search for a\r\nspecific NFT and display it on an image.\r\n                                                                   \r\nThe user needs to provide a contract address and token id\r\nusing the UI Text Entry Box component. Other users should\r\nsee the most recent succesful NFT searched for.                                                                 \r\n\r\n=====\r\nSetup\r\n=====\r\n\r\nDrag and drop the NFT Searcher template into the Hierarchy.\r\n\r\nPreview the project and interact with the portrait trigger.\r\n\r\nAdd a NFT\'s contract address and token id into the UI Text Entry Box.\r\n\r\nPress submit and the NFT image should appear if done correctly.\r\n\r\n==========\r\nHow to Use\r\n==========\r\n\r\nThe root object of the template has 3 custom properties.\r\n\r\n- ContractAddress\r\n\r\nThe contract address of a default NFT to display.\r\nIf empty, there will be no default NFT displayed.\r\n\r\n- TokenId\r\n\r\nThe token id of a default NFT to display.\r\nIf empty, there will be no default NFT displayed.\r\n\r\n- DisplayName\r\n\r\nShould the name of the NFT be displayed on top of the NFT image.\r\n\r\n]]"
-        CustomParameters {
-        }
-      }
-    }
-    Assets {
-      Id: 3456202429475588989
-      Name: "NFTSearcher_Client"
-      PlatformAssetType: 3
-      TextAsset {
-        Text: "local COMPONENT_ROOT = script:GetCustomProperty(\"ComponentRoot\"):WaitForObject()\r\nlocal SERVER_SCRIPT = script:GetCustomProperty(\"ServerScript\"):WaitForObject()\r\nlocal PICTURE = script:GetCustomProperty(\"Picture\"):WaitForObject()\r\nlocal INFO_BG = script:GetCustomProperty(\"InfoBG\"):WaitForObject()\r\nlocal INFO = script:GetCustomProperty(\"Info\"):WaitForObject()\r\nlocal TRIGGER = script:GetCustomProperty(\"Trigger\"):WaitForObject()\r\nlocal SCREEN_UICONTAINER = script:GetCustomProperty(\"ScreenUIContainer\"):WaitForObject()\r\nlocal CONTRACT_ADDRESS_ENTRY = script:GetCustomProperty(\"ContractAddressEntry\"):WaitForObject()\r\nlocal TOKEN_ID_ENTRY = script:GetCustomProperty(\"TokenIdEntry\"):WaitForObject()\r\nlocal SEARCH_BUTTON = script:GetCustomProperty(\"SearchButton\"):WaitForObject()\r\nlocal CLOSE_BUTTON = script:GetCustomProperty(\"CloseButton\"):WaitForObject()\r\n\r\nlocal DEFAULT_CONTRACT_ADDRESS = COMPONENT_ROOT:GetCustomProperty(\"ContractAddress\")\r\nlocal DEFAULT_TOKEN_ID = COMPONENT_ROOT:GetCustomProperty(\"TokenId\")\r\nlocal DISPLAY_NAME = COMPONENT_ROOT:GetCustomProperty(\"DisplayName\")\r\n\r\nlocal contractAddress = \"\"\r\nlocal tokenId = \"\"\r\n\r\nlocal LOCAL_PLAYER = Game.GetLocalPlayer()\r\n\r\nINFO_BG.visibility = DISPLAY_NAME and Visibility.FORCE_ON or Visibility.FORCE_OFF\r\n\r\nlocal function UpdateNewToken(newContract, newId)\r\n\tTask.Spawn(function()\r\n\t\tlocal token, status, msg = Blockchain.GetToken(newContract, newId)\r\n\t\tif status == BlockchainTokenResultCode.SUCCESS then\r\n\t\t\tcontractAddress = newContract\r\n\t\t\ttokenId = newId\r\n\t\t\tPICTURE:SetBlockchainToken(token)\r\n\t\t\tINFO.text = token.name\r\n\t\telse\r\n\t\t\twarn(msg)\r\n\t\tend\r\n\tend)\r\nend\r\n\r\nlocal function IsValidNewToken(newContract, newId)\r\n\tif newContract == nil or newId == nil then\r\n\t\treturn false\r\n\tend\r\n\treturn newContract ~= \"\" and newId ~= \"\" and (newContract ~= contractAddress or newId ~= tokenId)\r\nend\r\n\r\nlocal function CheckForTokenUpdate()\r\n\tlocal CURRENT_NFT = SERVER_SCRIPT:GetCustomProperty(\"CurrentNFT\")\r\n\tlocal CONTRACT_ADDRESS, TOKEN_ID = CoreString.Split(CURRENT_NFT, {\r\n        delimiters = {\"/\"}, \r\n        removeEmptyResults = true\r\n    })\r\n\tif IsValidNewToken(CONTRACT_ADDRESS, TOKEN_ID) then\r\n\t\tUpdateNewToken(CONTRACT_ADDRESS, TOKEN_ID)\r\n\telseif IsValidNewToken(DEFAULT_CONTRACT_ADDRESS, DEFAULT_TOKEN_ID) then\r\n\t\tUpdateNewToken(DEFAULT_CONTRACT_ADDRESS, DEFAULT_TOKEN_ID)\r\n\tend\r\nend\r\n\r\n\r\nlocal function OpenScreenUI()\r\n\tEvents.BroadcastToServer(COMPONENT_ROOT.id .. \".LockCrouch\")\r\n\tSCREEN_UICONTAINER.visibility = Visibility.FORCE_ON\r\n\tUI.SetCursorVisible(true)\r\n\tUI.SetCanCursorInteractWithUI(true)\r\n\tif contractAddress ~= \"\" then\r\n\t\tCONTRACT_ADDRESS_ENTRY.text = contractAddress\r\n\tend\r\n\tif tokenId ~= \"\" then\r\n\t\tTOKEN_ID_ENTRY.text = tokenId\r\n\tend\r\nend\r\n\r\nlocal function CloseScreenUI()\r\n\tEvents.BroadcastToServer(COMPONENT_ROOT.id .. \".UnlockCrouch\")\r\n\tSCREEN_UICONTAINER.visibility = Visibility.FORCE_OFF\r\n\tUI.SetCursorVisible(false)\r\n\tUI.SetCanCursorInteractWithUI(false)\r\n\tTRIGGER.isInteractable = TRIGGER:IsOverlapping(LOCAL_PLAYER)\r\nend\r\n\r\nlocal function OnBeginOverlap(trigger, other)\r\n\tif other == LOCAL_PLAYER then\r\n\t\tTRIGGER.isInteractable = true\r\n\tend\r\nend\r\n\r\nlocal function OnEndOverlap(trigger, other)\r\n\tif other == LOCAL_PLAYER then\r\n\t\tCloseScreenUI()\r\n\tend\r\nend\r\n\r\nlocal function OnInteracted(trigger, other)\r\n\tif other == LOCAL_PLAYER then\r\n\t\tOpenScreenUI()\r\n\t\tTRIGGER.isInteractable = false\r\n\tend\r\nend\r\n\r\nlocal function OnSearch()\r\n\tif IsValidNewToken(CONTRACT_ADDRESS_ENTRY.text, TOKEN_ID_ENTRY.text) then\r\n\t\tEvents.BroadcastToServer(COMPONENT_ROOT.id .. \".NewToken\", CONTRACT_ADDRESS_ENTRY.text, TOKEN_ID_ENTRY.text)\r\n\tend\r\n\tCloseScreenUI()\r\nend\r\n\r\nlocal function OnPropChange(owner, prop)\r\n\tif prop == \"CurrentNFT\" then\r\n\t\tCheckForTokenUpdate()\r\n\tend\r\nend\r\n\r\nTRIGGER.beginOverlapEvent:Connect(OnBeginOverlap)\r\nTRIGGER.endOverlapEvent:Connect(OnEndOverlap)\r\nTRIGGER.interactedEvent:Connect(OnInteracted)\r\n\r\nSEARCH_BUTTON.clickedEvent:Connect(OnSearch)\r\n\r\nCLOSE_BUTTON.clickedEvent:Connect(CloseScreenUI)\r\n\r\nSERVER_SCRIPT.customPropertyChangedEvent:Connect(OnPropChange)\r\n\r\nCloseScreenUI()\r\nCheckForTokenUpdate()"
-        CustomParameters {
         }
       }
     }
@@ -1573,6 +1534,7 @@ Assets {
           AssetId: "None"
         }
       }
+      DirectlyPublished: true
     }
     Assets {
       Id: 7385661824659641961
@@ -1593,6 +1555,17 @@ Assets {
       }
     }
     Assets {
+      Id: 3456202429475588989
+      Name: "NFTSearcher_Client"
+      PlatformAssetType: 3
+      TextAsset {
+        Text: "local COMPONENT_ROOT = script:GetCustomProperty(\"ComponentRoot\"):WaitForObject()\r\nlocal SERVER_SCRIPT = script:GetCustomProperty(\"ServerScript\"):WaitForObject()\r\nlocal PICTURE = script:GetCustomProperty(\"Picture\"):WaitForObject()\r\nlocal INFO_BG = script:GetCustomProperty(\"InfoBG\"):WaitForObject()\r\nlocal INFO = script:GetCustomProperty(\"Info\"):WaitForObject()\r\nlocal TRIGGER = script:GetCustomProperty(\"Trigger\"):WaitForObject()\r\nlocal SCREEN_UICONTAINER = script:GetCustomProperty(\"ScreenUIContainer\"):WaitForObject()\r\nlocal CONTRACT_ADDRESS_ENTRY = script:GetCustomProperty(\"ContractAddressEntry\"):WaitForObject()\r\nlocal TOKEN_ID_ENTRY = script:GetCustomProperty(\"TokenIdEntry\"):WaitForObject()\r\nlocal SEARCH_BUTTON = script:GetCustomProperty(\"SearchButton\"):WaitForObject()\r\nlocal CLOSE_BUTTON = script:GetCustomProperty(\"CloseButton\"):WaitForObject()\r\n\r\nlocal DEFAULT_CONTRACT_ADDRESS = COMPONENT_ROOT:GetCustomProperty(\"ContractAddress\")\r\nlocal DEFAULT_TOKEN_ID = COMPONENT_ROOT:GetCustomProperty(\"TokenId\")\r\nlocal DISPLAY_NAME = COMPONENT_ROOT:GetCustomProperty(\"DisplayName\")\r\n\r\nlocal contractAddress = \"\"\r\nlocal tokenId = \"\"\r\n\r\nlocal LOCAL_PLAYER = Game.GetLocalPlayer()\r\n\r\nINFO_BG.visibility = DISPLAY_NAME and Visibility.FORCE_ON or Visibility.FORCE_OFF\r\n\r\nlocal function UpdateNewToken(newContract, newId)\r\n\tTask.Spawn(function()\r\n\t\tlocal token, status, msg = Blockchain.GetToken(newContract, newId)\r\n\t\tif status == BlockchainTokenResultCode.SUCCESS then\r\n\t\t\tcontractAddress = newContract\r\n\t\t\ttokenId = newId\r\n\t\t\tPICTURE:SetBlockchainToken(token)\r\n\t\t\tINFO.text = token.name\r\n\t\telse\r\n\t\t\twarn(msg)\r\n\t\tend\r\n\tend)\r\nend\r\n\r\nlocal function IsValidNewToken(newContract, newId)\r\n\tif newContract == nil or newId == nil then\r\n\t\treturn false\r\n\tend\r\n\treturn newContract ~= \"\" and newId ~= \"\" and (newContract ~= contractAddress or newId ~= tokenId)\r\nend\r\n\r\nlocal function CheckForTokenUpdate()\r\n\tlocal CURRENT_NFT = SERVER_SCRIPT:GetCustomProperty(\"CurrentNFT\")\r\n\tlocal CONTRACT_ADDRESS, TOKEN_ID = CoreString.Split(CURRENT_NFT, {\r\n        delimiters = {\"/\"}, \r\n        removeEmptyResults = true\r\n    })\r\n\tif IsValidNewToken(CONTRACT_ADDRESS, TOKEN_ID) then\r\n\t\tUpdateNewToken(CONTRACT_ADDRESS, TOKEN_ID)\r\n\telseif IsValidNewToken(DEFAULT_CONTRACT_ADDRESS, DEFAULT_TOKEN_ID) then\r\n\t\tUpdateNewToken(DEFAULT_CONTRACT_ADDRESS, DEFAULT_TOKEN_ID)\r\n\tend\r\nend\r\n\r\n\r\nlocal function OpenScreenUI()\r\n\tEvents.BroadcastToServer(COMPONENT_ROOT.id .. \".LockCrouch\")\r\n\tSCREEN_UICONTAINER.visibility = Visibility.FORCE_ON\r\n\tUI.SetCursorVisible(true)\r\n\tUI.SetCanCursorInteractWithUI(true)\r\n\tif contractAddress ~= \"\" then\r\n\t\tCONTRACT_ADDRESS_ENTRY.text = contractAddress\r\n\tend\r\n\tif tokenId ~= \"\" then\r\n\t\tTOKEN_ID_ENTRY.text = tokenId\r\n\tend\r\nend\r\n\r\nlocal function CloseScreenUI()\r\n\tEvents.BroadcastToServer(COMPONENT_ROOT.id .. \".UnlockCrouch\")\r\n\tSCREEN_UICONTAINER.visibility = Visibility.FORCE_OFF\r\n\tUI.SetCursorVisible(false)\r\n\tUI.SetCanCursorInteractWithUI(false)\r\n\tTRIGGER.isInteractable = TRIGGER:IsOverlapping(LOCAL_PLAYER)\r\nend\r\n\r\nlocal function OnBeginOverlap(trigger, other)\r\n\tif other == LOCAL_PLAYER then\r\n\t\tTRIGGER.isInteractable = true\r\n\tend\r\nend\r\n\r\nlocal function OnEndOverlap(trigger, other)\r\n\tif other == LOCAL_PLAYER then\r\n\t\tCloseScreenUI()\r\n\tend\r\nend\r\n\r\nlocal function OnInteracted(trigger, other)\r\n\tif other == LOCAL_PLAYER then\r\n\t\tOpenScreenUI()\r\n\t\tTRIGGER.isInteractable = false\r\n\tend\r\nend\r\n\r\nlocal function OnSearch()\r\n\tif IsValidNewToken(CONTRACT_ADDRESS_ENTRY.text, TOKEN_ID_ENTRY.text) then\r\n\t\tEvents.BroadcastToServer(COMPONENT_ROOT.id .. \".NewToken\", CONTRACT_ADDRESS_ENTRY.text, TOKEN_ID_ENTRY.text)\r\n\tend\r\n\tCloseScreenUI()\r\nend\r\n\r\nlocal function OnPropChange(owner, prop)\r\n\tif prop == \"CurrentNFT\" then\r\n\t\tCheckForTokenUpdate()\r\n\tend\r\nend\r\n\r\nTRIGGER.beginOverlapEvent:Connect(OnBeginOverlap)\r\nTRIGGER.endOverlapEvent:Connect(OnEndOverlap)\r\nTRIGGER.interactedEvent:Connect(OnInteracted)\r\n\r\nSEARCH_BUTTON.clickedEvent:Connect(OnSearch)\r\n\r\nCLOSE_BUTTON.clickedEvent:Connect(CloseScreenUI)\r\n\r\nSERVER_SCRIPT.customPropertyChangedEvent:Connect(OnPropChange)\r\n\r\nCloseScreenUI()\r\nCheckForTokenUpdate()"
+        CustomParameters {
+        }
+      }
+      DirectlyPublished: true
+    }
+    Assets {
       Id: 6328005888333410420
       Name: "Wood Planks"
       PlatformAssetType: 2
@@ -1609,6 +1582,28 @@ Assets {
         AssetType: "StaticMeshAssetRef"
         AssetId: "sm_container_square_thin_ref"
       }
+    }
+    Assets {
+      Id: 17739455570673247523
+      Name: "NFTSearcher_Server"
+      PlatformAssetType: 3
+      TextAsset {
+        Text: "local COMPONENT_ROOT = script:GetCustomProperty(\"ComponentRoot\"):WaitForObject()\r\n\r\nEvents.Connect(COMPONENT_ROOT.id .. \".NewToken\", function(contractAddress, tokenId)\r\n\tscript:SetCustomProperty(\"CurrentNFT\", contractAddress .. \"/\" .. tokenId)\r\nend)\r\n\r\nEvents.ConnectForPlayer(COMPONENT_ROOT.id .. \".LockCrouch\", function(player)\r\n\tplayer.isCrouchEnabled = false\r\nend)\r\n\r\nEvents.ConnectForPlayer(COMPONENT_ROOT.id .. \".UnlockCrouch\", function(player)\r\n\tplayer.isCrouchEnabled = true\r\nend)"
+        CustomParameters {
+        }
+      }
+      DirectlyPublished: true
+    }
+    Assets {
+      Id: 15669355375314984524
+      Name: "NFTSearcher_README"
+      PlatformAssetType: 3
+      TextAsset {
+        Text: "--[[\r\n\r\n  _   _ ______ _______    _____                     _               \r\n | \\ | |  ____|__   __|  / ____|                   | |              \r\n |  \\| | |__     | |    | (___   ___  __ _ _ __ ___| |__   ___ _ __ \r\n | . ` |  __|    | |     \\___ \\ / _ \\/ _` | \'__/ __| \'_ \\ / _ \\ \'__|\r\n | |\\  | |       | |     ____) |  __/ (_| | | | (__| | | |  __/ |   \r\n |_| \\_|_|       |_|    |_____/ \\___|\\__,_|_|  \\___|_| |_|\\___|_|   \r\n                                                                    \r\nNFT Searcher is a component that allows users to search for a\r\nspecific NFT and display it on an image.\r\n                                                                   \r\nThe user needs to provide a contract address and token id\r\nusing the UI Text Entry Box component. Other users should\r\nsee the most recent succesful NFT searched for.                                                                 \r\n\r\n=====\r\nSetup\r\n=====\r\n\r\nDrag and drop the NFT Searcher template into the Hierarchy.\r\n\r\nPreview the project and interact with the portrait trigger.\r\n\r\nAdd a NFT\'s contract address and token id into the UI Text Entry Box.\r\n\r\nPress submit and the NFT image should appear if done correctly.\r\n\r\n==========\r\nHow to Use\r\n==========\r\n\r\nThe root object of the template has 3 custom properties.\r\n\r\n- ContractAddress\r\n\r\nThe contract address of a default NFT to display.\r\nIf empty, there will be no default NFT displayed.\r\n\r\n- TokenId\r\n\r\nThe token id of a default NFT to display.\r\nIf empty, there will be no default NFT displayed.\r\n\r\n- DisplayName\r\n\r\nShould the name of the NFT be displayed on top of the NFT image.\r\n\r\n]]"
+        CustomParameters {
+        }
+      }
+      DirectlyPublished: true
     }
     Assets {
       Id: 6702266276352956128
@@ -1910,6 +1905,7 @@ Assets {
           AssetId: "None"
         }
       }
+      DirectlyPublished: true
     }
     Assets {
       Id: 11951506208073665883
@@ -1929,624 +1925,13 @@ Assets {
         AssetId: "sm_cube_001"
       }
     }
-    Assets {
-      Id: 736360303936294653
-      Name: "Default Bindings"
-      PlatformAssetType: 29
-      BindingSetAsset {
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:basic"
-          }
-          BasicBindingData {
-            BasicInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:spacebar"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:a"
-              }
-            }
-          }
-          Action: "Jump"
-          Description: "Make the character jump."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:jump"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:basic"
-          }
-          BasicBindingData {
-            BasicInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:leftcontrol"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:c"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:b"
-              }
-            }
-          }
-          Action: "Crouch"
-          Description: "Enter crouch mode."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:crouch"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:basic"
-          }
-          BasicBindingData {
-            BasicInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:g"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:dpadup"
-              }
-            }
-          }
-          Action: "Mount"
-          Description: "Enter mount mode."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:mount"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:basic"
-          }
-          BasicBindingData {
-            BasicInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:f"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:x"
-              }
-            }
-          }
-          Action: "Interact"
-          Description: "Interact with triggers."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:interact"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:basic"
-          }
-          BasicBindingData {
-            BasicInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:enter"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:none"
-              }
-            }
-          }
-          Action: "Chat"
-          Description: "Opens chat dialog and social menu."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:chat"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:basic"
-          }
-          BasicBindingData {
-            BasicInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:tilde"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:middleclick"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:view"
-              }
-            }
-          }
-          Action: "Slot Picker"
-          Description: "Reopens last opened picker menu."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:slotpicker"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:directional"
-          }
-          DirectionalBindingData {
-            UpInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:w"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:leftstickup"
-              }
-            }
-            LeftInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:a"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:leftstickleft"
-              }
-            }
-            DownInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:s"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:leftstickdown"
-              }
-            }
-            RightInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:d"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:leftstickright"
-              }
-            }
-          }
-          Action: "Move"
-          Description: "Moves the character."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:move"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:axis"
-          }
-          AxisBindingData {
-            IncreaseInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:spacebar"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:a"
-              }
-            }
-            DecreaseInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:leftcontrol"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:c"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:b"
-              }
-            }
-          }
-          Action: "Move Vertically"
-          Description: "Fly or swim vertically up and down."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:movevertically"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:directional"
-          }
-          DirectionalBindingData {
-            UpInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:mouseup"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:rightstickup"
-              }
-            }
-            LeftInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:mouseleft"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:rightstickleft"
-              }
-            }
-            DownInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:mousedown"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:rightstickdown"
-              }
-            }
-            RightInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:mouseright"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:rightstickright"
-              }
-            }
-          }
-          Action: "Look"
-          Description: "Controls the camera."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:look"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:axis"
-          }
-          AxisBindingData {
-            IncreaseInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:scrolldown"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:rightbumper"
-              }
-            }
-            DecreaseInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:scrollup"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:leftbumper"
-              }
-            }
-          }
-          Action: "Zoom"
-          Description: "Zoom in or out with the camera."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:zoom"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:basic"
-          }
-          BasicBindingData {
-            BasicInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:leftalt"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:none"
-              }
-            }
-          }
-          Action: "Push-to-Talk"
-          Description: "Toggle voice chat mode."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:pushtotalk"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:basic"
-          }
-          BasicBindingData {
-            BasicInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:leftclick"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:righttrigger"
-              }
-            }
-          }
-          Action: "Shoot"
-          Description: "Shoot ability of weapon or equipment."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:weapon"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:basic"
-          }
-          BasicBindingData {
-            BasicInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:rightclick"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:lefttrigger"
-              }
-            }
-          }
-          Action: "Aim"
-          Description: "Weapon or equipment aiming."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:weapon"
-          }
-          Networked: true
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:basic"
-          }
-          BasicBindingData {
-            BasicInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:r"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:y"
-              }
-            }
-          }
-          Action: "Reload"
-          Description: "Reload ability on weapons."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:weapon"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:basic"
-          }
-          BasicBindingData {
-            BasicInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:leftclick"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:x"
-              }
-            }
-          }
-          Action: "Attack"
-          Description: "Attack ability for melee weapons or equipment."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:equipment"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:basic"
-          }
-          BasicBindingData {
-            BasicInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:w"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:righttrigger"
-              }
-            }
-          }
-          Action: "Vehicle Accelerate"
-          Description: "When driving, accelerate forward."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:vehicleaccelerate"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:basic"
-          }
-          BasicBindingData {
-            BasicInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:s"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:lefttrigger"
-              }
-            }
-          }
-          Action: "Vehicle Reverse"
-          Description: "When driving, stop the vehicle and reverse."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:vehiclereverse"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:axis"
-          }
-          AxisBindingData {
-            IncreaseInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:d"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:leftstickright"
-              }
-            }
-            DecreaseInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:a"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:leftstickleft"
-              }
-            }
-          }
-          Action: "Vehicle Turn"
-          Description: "When driving, turn the vehicle."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:vehicleturn"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:basic"
-          }
-          BasicBindingData {
-            BasicInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:spacebar"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:b"
-              }
-            }
-          }
-          Action: "Vehicle Handbrake"
-          Description: "When driving, apply the handbrake."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:vehiclehandbrake"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:basic"
-          }
-          BasicBindingData {
-            BasicInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:leftclick"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:a"
-              }
-            }
-          }
-          Action: "Vehicle Shoot"
-          Description: "Shoot ability on vehicle."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:vehicle"
-          }
-          IsEnabledOnStart: true
-        }
-        Bindings {
-          BindingType {
-            Value: "mc:ebindingtype:basic"
-          }
-          BasicBindingData {
-            BasicInputs {
-              KeyboardPrimary {
-                Value: "mc:ebindingkeyboard:f"
-              }
-              KeyboardSecondary {
-                Value: "mc:ebindingkeyboard:none"
-              }
-              Controller {
-                Value: "mc:ebindinggamepad:x"
-              }
-            }
-          }
-          Action: "Vehicle Exit"
-          Description: "When driving, exit the vehicle."
-          CoreBehavior {
-            Value: "mc:ecorebehavior:vehicleexit"
-          }
-          IsEnabledOnStart: true
-        }
-      }
-    }
     PrimaryAssetId {
       AssetType: "None"
       AssetId: "None"
     }
   }
   Marketplace {
-    Id: "a818bfbbf86e462c8d51ef5d215d1b4b"
+    Id: "7b48802de76249e7a4a34f89985da32a"
     OwnerAccountId: "bd602d5201b04b3fbf7be10f59c8f974"
     OwnerName: "CoreAcademy"
   }
