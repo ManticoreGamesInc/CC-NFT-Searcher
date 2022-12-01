@@ -5,7 +5,7 @@
 [![Build Status](https://github.com/ManticoreGamesInc/CC-NFT-Searcher/workflows/CI/badge.svg)](https://github.com/ManticoreGamesInc/CC-NFT-Searcher/actions/workflows/ci.yml?query=workflow%3ACI%29)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/ManticoreGamesInc/CC-NFT-Searcher?style=plastic)
 
-![Preview](/Screenshots/nftsearcher.png)
+![Preview](/Screenshots/Main.png)
 
 </div>
 
@@ -16,8 +16,8 @@ This component can be found under the **CoreAcademy** account on Community Conte
 ## Overview
 
 NFT Searcher is a component that allows users to search for a specific NFT and display it on an image.
-                                                                   
-The user needs to provide a contract address and token id using the UI Text Entry Box component. Other users should see the most recent successful NFT searched for.  
+
+The user needs to provide a contract address and token id using the UI Text Entry Box component. Other users should see the most recent successful NFT searched for.
 
 ## Setup
 
